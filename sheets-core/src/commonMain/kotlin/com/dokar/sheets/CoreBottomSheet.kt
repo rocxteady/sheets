@@ -46,6 +46,7 @@ fun CoreBottomSheet(
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     showAboveKeyboard: Boolean = false,
     dragHandle: @Composable () -> Unit = { CoreBottomSheetDragHandle() },
+    gestureEnabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     if (!state.visible) {
@@ -98,6 +99,7 @@ fun CoreBottomSheet(
             behaviors = behaviors,
             contentAlignment = contentAlignment,
             dragHandle = currentDragHandle,
+            gestureEnabled = gestureEnabled,
             content = currentContent
         )
     }

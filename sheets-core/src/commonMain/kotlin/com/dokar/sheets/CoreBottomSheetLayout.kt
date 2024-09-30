@@ -83,6 +83,7 @@ fun CoreBottomSheetLayout(
     behaviors: SheetBehaviors = SheetBehaviors(),
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     dragHandle: @Composable () -> Unit = { CoreBottomSheetDragHandle() },
+    gestureEnabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -227,16 +228,23 @@ fun CoreBottomSheetLayout(
                             indication = null,
                             onClick = {},
                         )
-                        .draggable(
-                            state = rememberDraggableState { dy ->
-                                coroutineScope.launch {
-                                    state.addOffsetY(dy)
-                                }
-                            },
-                            orientation = Orientation.Vertical,
-                            onDragStarted = {},
-                            onDragStopped = { state.onDragStopped() },
-                        ),
+                        .then(
+                            if (gestureEnabled) {
+                                Modifier
+                                    .draggable(
+                                        state = rememberDraggableState { dy ->
+                                            coroutineScope.launch {
+                                                state.addOffsetY(dy)
+                                            }
+                                        },
+                                        orientation = Orientation.Vertical,
+                                        onDragStarted = {},
+                                        onDragStopped = { state.onDragStopped() },
+                                    )
+                            } else {
+                                Modifier
+                            }
+                        )
                 ) {
                     dragHandle()
                     content()
