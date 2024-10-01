@@ -19,6 +19,7 @@ import androidx.compose.ui.input.pointer.util.VelocityTracker
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.max
@@ -210,7 +211,8 @@ class BottomSheetState(
     suspend fun collapse(
         animate: Boolean = true,
         animationSpec: AnimationSpec<Float> = collapseTween(),
-    ) {
+        completion: (() -> Unit)? = null,
+        ) {
         stopAnimations()
         val expectedNextValue = BottomSheetValue.Collapsed
         val nextValue = if (confirmValueChange(expectedNextValue)) {
@@ -230,6 +232,18 @@ class BottomSheetState(
                 }
             }
         }
+        if (animate) {
+            completion?.let {
+                coroutineScope {
+                    launch {
+                        delay(CollapseAnimDuration.toLong())
+                        it()
+                    }
+                }
+            }
+        } else {
+            completion?.invoke()
+        }
     }
 
     /**
@@ -244,6 +258,7 @@ class BottomSheetState(
             dampingRatio = 0.85f,
             stiffness = 370f
         ),
+        completion: (() -> Unit)? = null,
     ) {
         stopAnimations()
         expandAnimationSpec = animationSpec
@@ -265,6 +280,18 @@ class BottomSheetState(
                 }
             }
         }
+        if (animate) {
+            completion?.let {
+                coroutineScope {
+                    launch {
+                        delay(CollapseAnimDuration.toLong())
+                        it()
+                    }
+                }
+            }
+        } else {
+            completion?.invoke()
+        }
     }
 
     /**
@@ -278,7 +305,8 @@ class BottomSheetState(
         animationSpec: AnimationSpec<Float> = spring(
             dampingRatio = 0.85f,
             stiffness = 370f
-        )
+        ),
+        completion: (() -> Unit)? = null,
     ) {
         stopAnimations()
         peekAnimationSpec = animationSpec
@@ -299,6 +327,18 @@ class BottomSheetState(
                     dragVelocity = 0f
                 }
             }
+        }
+        if (animate) {
+            completion?.let {
+                coroutineScope {
+                    launch {
+                        delay(CollapseAnimDuration.toLong())
+                        it()
+                    }
+                }
+            }
+        } else {
+            completion?.invoke()
         }
     }
 

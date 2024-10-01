@@ -96,6 +96,7 @@ fun BottomSheetLayout(
     behaviors: SheetBehaviors = SheetBehaviors(),
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     dragHandle: @Composable () -> Unit = { BottomSheetDragHandle() },
+    gestureEnabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     CoreBottomSheetLayout(
@@ -110,6 +111,7 @@ fun BottomSheetLayout(
         behaviors = behaviors,
         contentAlignment = contentAlignment,
         dragHandle = dragHandle,
+        gestureEnabled = gestureEnabled,
         content = content,
     )
 }

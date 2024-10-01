@@ -44,6 +44,7 @@ fun BottomSheet(
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     showAboveKeyboard: Boolean = false,
     dragHandle: @Composable () -> Unit = { BottomSheetDragHandle() },
+    gestureEnabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     CoreBottomSheet(
@@ -59,6 +60,7 @@ fun BottomSheet(
         contentAlignment = contentAlignment,
         showAboveKeyboard = showAboveKeyboard,
         dragHandle = dragHandle,
+        gestureEnabled = gestureEnabled,
         content = content,
     )
 }
@@ -95,6 +97,7 @@ fun BottomSheetLayout(
     behaviors: SheetBehaviors = SheetBehaviors(),
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     dragHandle: @Composable () -> Unit = { BottomSheetDragHandle() },
+    gestureEnabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     CoreBottomSheetLayout(
@@ -109,6 +112,7 @@ fun BottomSheetLayout(
         behaviors = behaviors,
         contentAlignment = contentAlignment,
         dragHandle = dragHandle,
+        gestureEnabled = gestureEnabled,
         content = content,
     )
 }
