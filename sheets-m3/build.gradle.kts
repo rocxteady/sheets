@@ -1,18 +1,16 @@
-import com.vanniktech.maven.publish.SonatypeHost
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+@file:OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
 
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.mavenPublish)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.vanniktech)
 }
 
 kotlin {
     jvmToolchain(21)
 
-    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "sheets-m3"
         browser {
@@ -25,11 +23,6 @@ kotlin {
 
     androidTarget {
         publishLibraryVariants("release")
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "21"
-            }
-        }
     }
 
     jvm("desktop")
@@ -48,7 +41,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.dokar.sheets.m3"
+    namespace = "io.github.rocxteady.sheets.m3"
     compileSdk = rootProject.extra["compile_sdk"] as Int
 
     defaultConfig {
@@ -71,3 +64,9 @@ android {
         debugImplementation(libs.compose.ui.tooling)
     }
 }
+
+val configurePublishing: (String) -> Unit by extra
+
+configurePublishing(
+    "sheets-m3"
+)

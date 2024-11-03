@@ -85,10 +85,10 @@ Migration is simple, just change the imports.
 
 ```kotlin
 // Material 2:
-import com.dokar.sheets.BottomSheet
+import io.github.rocxteady.sheets.BottomSheet
 
 // Material 3:
-import com.dokar.sheets.m3.BottomSheet
+import io.github.rocxteady.sheets.m3.BottomSheet
 ```
 
 ### Window Controlling

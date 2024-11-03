@@ -1,17 +1,16 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+@file:OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
 
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.mavenPublish)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.vanniktech)
 }
 
 kotlin {
     jvmToolchain(21)
 
-    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "sheets-core"
         browser {
@@ -24,11 +23,6 @@ kotlin {
 
     androidTarget {
         publishLibraryVariants("release")
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "21"
-            }
-        }
     }
 
     jvm("desktop")
@@ -52,16 +46,14 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
         }
-        val desktopTest by getting {
-            dependencies {
-                implementation(compose.desktop.uiTestJUnit4)
-            }
+        desktopMain.dependencies {
+            implementation(compose.desktop.uiTestJUnit4)
         }
     }
 }
 
 android {
-    namespace = "com.dokar.sheets.core"
+    namespace = "io.github.rocxteady.sheets.core"
     compileSdk = rootProject.extra["compile_sdk"] as Int
 
     defaultConfig {
@@ -84,3 +76,9 @@ android {
         debugImplementation(libs.compose.ui.tooling)
     }
 }
+
+val configurePublishing: (String) -> Unit by extra
+
+configurePublishing(
+    "sheets-core"
+)
