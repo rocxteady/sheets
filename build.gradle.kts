@@ -31,7 +31,7 @@ subprojects {
             coordinates(
                 "io.github.rocxteady",
                 artifactId,
-                "0.0.1"
+                "0.7.0"
             )
 
             pom {
